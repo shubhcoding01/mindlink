@@ -34,7 +34,8 @@
 // }
 
 import type { Metadata } from "next";
-import "..styles/globals.css";
+// @ts-ignore: allow importing global css without type declarations
+import "../styles/globals.css";
 
 export const metadata: Metadata = {
   title: "MindLink",
