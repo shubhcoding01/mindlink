@@ -1,67 +1,13 @@
-/* @import "tailwindcss";
+@import "tailwindcss"; 
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-} */
-
-/* src/styles/globals.css */
-/* 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-html, body {
-  margin: 0;
-  padding: 0;
-  background: #f8fafc;
-  color: #0f172a;
-  font-family: Inter, sans-serif;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-input, button {
-  outline: none;
-}
-
-* {
-  box-sizing: border-box;
-} */
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
+  /* Default light mode variables */
   --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --background-start-rgb: 255, 255, 255; 
+  --background-end-rgb: 255, 255, 255;   
 }
 
+/* Dark mode variables (for future use/theme switching) */
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
@@ -70,18 +16,23 @@ input, button {
   }
 }
 
+/* Apply background and text color based on the root variables */
 body {
+  /* This ensures the entire page uses a solid white background (or black in dark mode)
+     and inherits the text color defined by the root variables. */
+  background: white; 
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  min-height: 100vh;
+  /* Use a generic system font as the primary font-family */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+/* General reset for links and elements */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
 }
