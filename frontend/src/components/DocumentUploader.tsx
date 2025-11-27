@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Upload, FileText, Plus, Clock, CheckCircle } from 'lucide-react';
+import { Upload, FileText, Plus, Clock, CheckCircle, Loader2 } from 'lucide-react';
 // import api from '@/lib/axios'; // Uncomment when backend is ready
 
 // Define a simple structure for an uploaded file
