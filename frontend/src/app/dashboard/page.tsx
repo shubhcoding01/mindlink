@@ -147,7 +147,7 @@ export default function DashboardPage() {
 
               {/* Study Plan Sidebar */}
               <div className="space-y-6">
-                 <div className="bg-gradient-to-br from-indigo-600 to-violet-600 rounded-2xl p-6 text-white shadow-lg">
+                 <div className="bg-linear-to-br from-indigo-600 to-violet-600 rounded-2xl p-6 text-white shadow-lg">
                     <h3 className="font-bold text-lg mb-2">Weekly Goal Progress</h3>
                     <div className="w-full bg-white/20 h-2 rounded-full mb-2">
                       <div className="w-[75%] bg-white h-full rounded-full" />
