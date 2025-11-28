@@ -204,7 +204,8 @@ import {
   Clock,
   CheckCircle,
   ChevronRight,
-  Zap // Imported Zap icon for Workflows
+  Zap, // Imported Zap icon for Workflows
+  Home
 } from 'lucide-react';
 
 // Assuming these components are in src/components/
@@ -237,9 +238,80 @@ const MOCK_PLAN: StudyPlanItem[] = [
   { id: '3', topic: 'Review: Transformer Models', type: 'Video', duration: '5 min', status: 'pending' },
 ];
 
+// --- NEW COMPONENT: SIMULATED QUIZ PLAYER ---
+const QuizPlayer = ({ topic, onFinish }: { topic: string, onFinish: () => void }) => {
+  const [currentQuestion, setCurrentQuestion] = useState(1);
+  const [score, setScore] = useState(0);
+  const totalQuestions = 3;
+
+  const handleAnswer = (isCorrect: boolean) => {
+    if (isCorrect) {
+      setScore(s => s + 1);
+    }
+    if (currentQuestion < totalQuestions) {
+      setCurrentQuestion(q => q + 1);
+    } else {
+      setTimeout(onFinish, 1500); // Simulate quiz completion delay
+    }
+  };
+
+  if (currentQuestion > totalQuestions) {
+    return (
+      <div className="p-12 text-center bg-white rounded-xl shadow-lg border border-slate-200">
+        <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
+        <h3 className="text-2xl font-bold">Quiz Complete!</h3>
+        <p className="text-xl text-slate-700 mt-2">You scored {score} out of {totalQuestions}.</p>
+        <button 
+          onClick={onFinish}
+          className="mt-6 px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition font-medium"
+        >
+          Return to Study Plan
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="bg-white p-8 rounded-xl shadow-lg border border-slate-200 max-w-2xl mx-auto">
+      <div className="text-sm font-semibold text-indigo-600 mb-2">Quiz: {topic}</div>
+      <div className="text-xs text-slate-500 mb-6">Question {currentQuestion} of {totalQuestions}</div>
+      
+      <h3 className="text-lg font-bold text-slate-900 mb-6">
+        What is the primary function of a vector embedding in the RAG process?
+      </h3>
+      
+      <div className="space-y-4">
+        {['To store data as plain text', 'To convert text into dense numeric vectors', 'To render visual diagrams'].map((answer, index) => (
+          <button 
+            key={index}
+            onClick={() => handleAnswer(index === 1)} // Mocking index 1 as correct
+            className="w-full text-left p-4 border border-slate-200 rounded-lg hover:bg-indigo-50 transition duration-150"
+          >
+            {index + 1}. {answer}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+};
+// --- END NEW COMPONENT ---
+
+
 export default function DashboardPage() {
   // Tabs: study (default view), chat (AI Tutor), files (Document Uploader)
   const [activeTab, setActiveTab] = useState<'study' | 'chat' | 'files' | 'workflows'>('study');
+  
+  // State to handle the current running activity within the 'study' tab
+  const [studyActivity, setStudyActivity] = useState<{type: 'list' | 'quiz', topic: string}>({ type: 'list', topic: '' });
+
+  const startQuiz = (topic: string) => {
+      setStudyActivity({ type: 'quiz', topic });
+  }
+  const returnToStudyList = () => {
+      setStudyActivity({ type: 'list', topic: '' });
+      // In a real app, you would also mark the corresponding quiz in MOCK_PLAN as 'completed'
+  }
+
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 flex">
@@ -252,7 +324,7 @@ export default function DashboardPage() {
         
         {/* Navigation Items */}
         <nav className="flex-1 px-4 space-y-2 mt-4">
-          <button onClick={() => setActiveTab('study')} className={`w-full flex items-center gap-3 p-3 rounded-lg transition ${activeTab === 'study' ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'}`}>
+          <button onClick={() => { setActiveTab('study'); returnToStudyList(); }} className={`w-full flex items-center gap-3 p-3 rounded-lg transition ${activeTab === 'study' ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'}`}>
             <BookOpen className="w-5 h-5" /> <span className="hidden lg:block font-medium">Study Plan</span>
           </button>
           <button onClick={() => setActiveTab('chat')} className={`w-full flex items-center gap-3 p-3 rounded-lg transition ${activeTab === 'chat' ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'}`}>
@@ -264,7 +336,7 @@ export default function DashboardPage() {
 
           {/* NEW: Workflow Link */}
           <Link href="/workflow" className={`w-full flex items-center gap-3 p-3 rounded-lg transition ${activeTab === 'workflows' ? 'bg-indigo-50 text-indigo-700' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'}`}
-            onClick={() => setActiveTab('workflows')} // Note: This is now a Link, but setting activeTab for visual feedback
+            onClick={() => setActiveTab('workflows')} 
           >
             <Zap className="w-5 h-5" /> <span className="hidden lg:block font-medium">Workflows</span>
           </Link>
@@ -296,12 +368,20 @@ export default function DashboardPage() {
       <main className="flex-1 ml-20 lg:ml-64 p-8">
         <header className="flex justify-between items-center mb-8">
           <h2 className="text-2xl font-bold text-slate-900">
-            {activeTab === 'study' && "Today's Study Plan"}
+            {activeTab === 'study' && (studyActivity.type === 'quiz' ? `Active Quiz: ${studyActivity.topic}` : "Today's Study Plan")}
             {activeTab === 'chat' && "AI Tutor Session"}
             {activeTab === 'files' && "Document Library"}
             {activeTab === 'workflows' && "Workflows"}
           </h2>
           <div className="flex items-center gap-4">
+            {studyActivity.type === 'quiz' && (
+              <button 
+                onClick={returnToStudyList} 
+                className="px-3 py-1.5 bg-slate-200 text-slate-700 rounded-lg font-medium hover:bg-slate-300 transition text-sm flex items-center gap-1"
+              >
+                <Home className='w-4 h-4' /> Back to Plan
+              </button>
+            )}
             <span className="text-sm bg-orange-50 text-orange-600 px-3 py-1.5 rounded-full font-medium flex items-center gap-2">
               <Clock className="w-4 h-4" /> Streak: {MOCK_USER.streak} days
             </span>
@@ -313,7 +393,7 @@ export default function DashboardPage() {
 
         <div className="max-w-5xl">
           {/* Study Plan Content */}
-          {activeTab === 'study' && (
+          {activeTab === 'study' && studyActivity.type === 'list' && (
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               <div className="lg:col-span-2 space-y-4">
                 <h3 className="text-lg font-semibold text-slate-700 mb-3">Next Steps:</h3>
@@ -323,7 +403,7 @@ export default function DashboardPage() {
                       <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
                         item.status === 'completed' ? 'bg-green-100 text-green-600' : 'bg-indigo-100 text-indigo-600'
                       }`}>
-                        {item.status === 'completed' ? <CheckCircle className="w-5 h-5" /> : <BookOpen className="w-5 h-5" />}
+                        {item.status === 'completed' ? <CheckCircle className="w-5 h-5" /> : (item.type === 'Quiz' ? <Zap className="w-5 h-5" /> : <BookOpen className="w-5 h-5" />)}
                       </div>
                       <div>
                         <h4 className="font-semibold text-slate-800">{item.topic}</h4>
@@ -335,7 +415,10 @@ export default function DashboardPage() {
                       </div>
                     </div>
                     {item.status !== 'completed' && (
-                      <button className="px-4 py-2 bg-slate-900 text-white text-sm rounded-lg group-hover:bg-indigo-600 transition">
+                      <button 
+                        onClick={() => item.type === 'Quiz' ? startQuiz(item.topic) : alert(`Starting ${item.type}: ${item.topic}`)}
+                        className="px-4 py-2 bg-slate-900 text-white text-sm rounded-lg group-hover:bg-indigo-600 transition"
+                      >
                         Start
                       </button>
                     )}
@@ -359,8 +442,13 @@ export default function DashboardPage() {
                  <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
                    <h3 className="font-bold text-slate-800 mb-4">Quick Review Topics</h3>
                    <div className="space-y-3">
+                     {/* Made these clickable to simulate starting a Quiz/Review */}
                      {['Linear Algebra', 'Python Basics', 'Advanced RAG'].map(topic => (
-                       <div key={topic} className="flex items-center justify-between text-sm text-slate-600 hover:text-indigo-600 cursor-pointer transition">
+                       <div 
+                         key={topic} 
+                         onClick={() => startQuiz(`Quick Review: ${topic}`)}
+                         className="flex items-center justify-between text-sm text-slate-600 hover:text-indigo-600 cursor-pointer transition"
+                       >
                          <span>{topic}</span>
                          <ChevronRight className="w-4 h-4 text-slate-400" />
                        </div>
@@ -369,6 +457,11 @@ export default function DashboardPage() {
                  </div>
               </div>
             </div>
+          )}
+          
+          {/* Active Quiz View */}
+          {activeTab === 'study' && studyActivity.type === 'quiz' && (
+             <QuizPlayer topic={studyActivity.topic} onFinish={returnToStudyList} />
           )}
 
           {/* AI Tutor Content */}
