@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Bell, FileText, CheckCircle, Clock, X, Loader2 } from 'lucide-react';
+import { Bell, FileText, CheckCircle, Clock, X, Loader2, Zap } from 'lucide-react';
 
 interface Notification {
     id: number;
@@ -83,13 +83,13 @@ export default function NotificationCenter() {
                     key={n.id} 
                     className={`flex items-start p-3 rounded-lg transition duration-150 ${n.read ? 'bg-white' : 'bg-indigo-50 hover:bg-indigo-100'}`}
                   >
-                    <Icon className={`w-5 h-5 mr-3 flex-shrink-0 mt-1 ${color}`} />
+                    <Icon className={`w-5 h-5 mr-3 shrink-0 mt-1 ${color}`} />
                     <div className="flex-1 min-w-0">
                       <p className={`text-sm font-medium ${n.read ? 'text-slate-700' : 'text-slate-900'}`}>{n.title}</p>
                       <p className="text-xs text-slate-500 truncate">{n.message}</p>
                       <p className="text-[10px] text-slate-400 mt-1">{new Date(n.timestamp).toLocaleTimeString()}</p>
                     </div>
-                    <button onClick={() => removeNotification(n.id)} className="ml-2 text-slate-400 hover:text-red-500 flex-shrink-0 p-1 rounded">
+                    <button onClick={() => removeNotification(n.id)} className="ml-2 text-slate-400 hover:text-red-500 shrink-0 p-1 rounded">
                       <X className="w-3 h-3" />
                     </button>
                   </div>
