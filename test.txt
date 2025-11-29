@@ -1,0 +1,59 @@
+docker-compose up --build -d
+*Wait a moment for all services (postgres, redis, minio, backend, ai_service) to start.*
+
+#### **Step 3: Database Migration Setup (Alembic)**
+
+You need the `alembic` folder and the migration script to create the `users` table.
+
+1.  **Initialize Alembic:** If you haven't run this, it creates the `backend/alembic` folder structure.
+    ```bash
+    docker exec -it mindlink-backend-1 alembic init -t async backend/alembic
+    2.  **Generate Migration Script:** This inspects `user_model.py` and creates the SQL statements.
+    ```bash
+    docker exec -it mindlink-backend-1 alembic revision --autogenerate -m "initial user setup"
+    3.  **Apply Migration (Execute SQL):** This creates the `users` table in your PostgreSQL database.
+    ```bash
+    docker exec -it mindlink-backend-1 alembic upgrade head
+        *You should see output indicating the table was created.*
+
+#### **Step 4: Test Authentication Endpoints**
+
+The FastAPI backend is running on `http://localhost:8000`. You can test the endpoints using a tool like Postman or the interactive **Swagger UI**.
+
+1.  **Access Swagger UI:** Open your web browser and navigate to:
+    `http://localhost:8000/docs`
+
+2.  **Test Registration (POST /api/auth/register):**
+    * Find the **`/api/auth/register`** endpoint in Swagger UI.
+    * Click "Try it out."
+    * Enter the Request Body (e.g.):
+        ```json
+        {
+          "name": "Test User",
+          "email": "test@mindlink.com",
+          "password": "password123"
+        }
+            * Click "Execute."
+    * **Expected Result:** A **201 Created** status and a response body containing the **`access_token`** and the user's profile data. This confirms hashing and database storage worked.
+
+3.  **Test Login (POST /api/auth/login):**
+    * Find the **`/api/auth/login`** endpoint.
+    * Click "Try it out."
+    * Enter the Request Body (e.g.):
+        ```json
+        {
+          "email": "test@mindlink.com",
+          "password": "password123"
+        }
+            * Click "Execute."
+    * **Expected Result:** A **200 OK** status and a new **`access_token`**. This confirms password verification worked.
+
+#### **Step 5: Verify AI Service (Health Check)**
+
+Although the AI service doesn't have a public API yet, you can ensure the container is running by checking its logs:
+
+```bash
+docker logs mindlink-ai_service-1
+* **Expected Output:** You should see output from the `ingest.py` script, likely mentioning "Ingestion worker started successfully. Waiting for tasks..." (or errors if it couldn't connect to MinIO/S3, which is expected since we haven't tested S3 yet).
+
+If all authentication tests pass, your **Backend MVP (Milestone 1)** is complete, and the database is connected! The next phase is integrating the **Frontend**.
