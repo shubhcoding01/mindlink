@@ -1,0 +1,84 @@
+version: '3.8'
+
+services:
+  # 1. PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: mindlink_db
+      POSTGRES_USER: mindlink_user
+      POSTGRES_PASSWORD: mindlink_password
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mindlink_user -d mindlink_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "5432:5432" 
+
+  # 2. Redis Cache
+  redis:
+    image: redis:7-alpine
+    restart: always
+    ports:
+      - "6379:6379"
+
+  # 3. MinIO (Local S3 compatible storage for documents)
+  minio:
+    image: minio/minio
+    restart: always
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minio_root
+      MINIO_ROOT_PASSWORD: minio_password
+    volumes:
+      - minio_data:/data
+    ports:
+      - "9000:9000" # S3 API port (Backend/AI Service use this)
+      - "9001:9001" # Console port
+
+  # 4. FastAPI Backend (Main API, Authentication)
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: on-failure
+    env_file:
+      - .env
+    ports:
+      - "8000:8000" # Frontend connects here
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      minio:
+        condition: service_started
+    volumes:
+      - ./backend/app:/app/app
+      - ./backend/requirements.txt:/app/requirements.txt
+
+  # 5. AI Service (RAG, Embeddings, Ingestion Pipeline)
+  ai_service:
+    build:
+      context: ./ai_service
+      dockerfile: Dockerfile
+    restart: on-failure
+    env_file:
+      - .env
+    ports:
+      - "8100:8100" # AI Service internal API port 
+    depends_on:
+      postgres:
+        condition: service_healthy
+      minio:
+        condition: service_started
+    volumes:
+      - ./ai_service:/app
+
+volumes:
+  pg_data:
+  minio_data:
