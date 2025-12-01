@@ -1,22 +1,22 @@
-FastAPI and Web Server (for API endpoints in AI service)
+
 
 fastapi==0.110.1
 uvicorn[standard]==0.29.0
 
-LLM Orchestration and Tools
+
 
 langchain==0.1.14
 langchain-core==0.1.41
 langchain-openai==0.1.6
 sentence-transformers==2.7.0  # For generating local embeddings
 
-Document Loading and Processing
+
 
 pypdf==4.2.0           # For processing PDF files
 pytesseract==0.3.10    # If OCR is needed for images in docs
 python-docx==1.1.0     # For processing Word documents
 
-Vector Database (Chroma recommended for easy local setup)
+
 
 chromadb==0.4.24
 

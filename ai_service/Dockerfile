@@ -9,15 +9,13 @@ ENV APP_HOME=/app
 WORKDIR $APP_HOME
 
 # Install dependencies
-# We assume the requirements file is at ai_service/requirements.txt relative to the docker-compose context
-# NOTE: The current context definition in docker-compose points to the root of the project, 
-# so the path inside the container must be adjusted if not running from the root.
-# We assume requirements.txt is copied to the root of the AI service container's working directory.
-COPY ai_service/requirements.txt .
+# CORRECTED: This assumes requirements.txt is directly in the build context (ai_service folder)
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the application code (ingest.py, etc.)
-COPY ./ai_service $APP_HOME
+# CORRECTED: Copy ALL files from the current context (.) to the container working directory ($APP_HOME)
+COPY . $APP_HOME
 
 # The command to run the ingestion worker script
 CMD ["python", "ingest.py"]
