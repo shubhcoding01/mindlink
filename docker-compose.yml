@@ -60,6 +60,8 @@
 #     volumes:
 #       - ./backend/app:/app/app
 #       - ./backend/requirements.txt:/app/requirements.txt
+#     # FIXED: Run Uvicorn as a Python module (python -m uvicorn)
+#     command: ["python", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
 
 #   # 5. AI Service (RAG, Embeddings, Ingestion Pipeline)
 #   ai_service:
@@ -78,6 +80,8 @@
 #         condition: service_started
 #     volumes:
 #       - ./ai_service:/app
+#     # Command is correct here: python ingest.py
+#     command: ["python", "ingest.py"] 
 
 # volumes:
 #   pg_data:
@@ -145,8 +149,16 @@ services:
     volumes:
       - ./backend/app:/app/app
       - ./backend/requirements.txt:/app/requirements.txt
-    # FIXED: Run Uvicorn as a Python module (python -m uvicorn)
-    command: ["python", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+    # CRITICAL FIX: Wait for Postgres to be ready before starting Uvicorn.
+    # We use a short shell script that executes 'pg_isready' (which comes with the python image)
+    command: >
+      /bin/sh -c "
+      until pg_isready -h postgres -p 5432 -U mindlink_user; do 
+        echo 'Postgres is unavailable - sleeping'; 
+        sleep 1; 
+      done;
+      echo 'Postgres is up - starting server';
+      exec python -m uvicorn app.main:app --host 0.0.0.0 --port 8000"
 
   # 5. AI Service (RAG, Embeddings, Ingestion Pipeline)
   ai_service:
@@ -165,8 +177,8 @@ services:
         condition: service_started
     volumes:
       - ./ai_service:/app
-    # Command is correct here: python ingest.py
-    command: ["python", "ingest.py"] 
+    # FIXED: Use tail -f /dev/null to keep the worker container running indefinitely
+    command: ["/bin/sh", "-c", "python ingest.py & tail -f /dev/null"] 
 
 volumes:
   pg_data:
