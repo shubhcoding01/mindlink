@@ -145,8 +145,8 @@ services:
     volumes:
       - ./backend/app:/app/app
       - ./backend/requirements.txt:/app/requirements.txt
-    # ADDED: Explicitly set the command to run Uvicorn/FastAPI
-    command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"] # FIX: Forces correct startup command
+    # FIXED: Run Uvicorn as a Python module (python -m uvicorn)
+    command: ["python", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
 
   # 5. AI Service (RAG, Embeddings, Ingestion Pipeline)
   ai_service:
@@ -165,8 +165,8 @@ services:
         condition: service_started
     volumes:
       - ./ai_service:/app
-    # ADDED: Explicitly set the command to run the ingest worker
-    command: ["python", "ingest.py"] # FIX: Forces correct startup command
+    # Command is correct here: python ingest.py
+    command: ["python", "ingest.py"] 
 
 volumes:
   pg_data:
