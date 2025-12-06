@@ -1,9 +1,36 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-// @ts-ignore: allow importing global css without type declarations
-import "../styles/globals.css"; 
+// import type { Metadata } from "next";
+// import { Inter } from "next/font/google";
+// // @ts-ignore: allow importing global css without type declarations
+// import "../styles/globals.css"; 
 
-const inter = Inter({ subsets: ["latin"] });
+// const inter = Inter({ subsets: ["latin"] });
+
+// export const metadata: Metadata = {
+//   title: "MindLink",
+//   description: "AI Personalized Learning Companion",
+// };
+
+// export default function RootLayout({
+//   children,
+// }: Readonly<{
+//   children: React.ReactNode;
+// }>) {
+//   return (
+//     <html lang="en">
+//       <body className={inter.className}>{children}</body>
+//     </html>
+//   );
+// }
+
+import React from "react";
+import type { Metadata } from "next";
+// For local development, uncomment the following lines:
+// import { Inter } from "next/font/google";
+// import "./globals.css";
+
+import GSAPWrapper from "@/components/GSAPWrapper";
+
+// const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "MindLink",
@@ -17,7 +44,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      {/* For local development, replace the body tag below with:
+        <body className={inter.className}>
+          <GSAPWrapper>
+            {children}
+          </GSAPWrapper>
+        </body>
+      */}
+      <body style={{ fontFamily: 'sans-serif', margin: 0 }}>
+        <GSAPWrapper>
+          {children}
+        </GSAPWrapper>
+      </body>
     </html>
   );
 }
