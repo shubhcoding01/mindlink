@@ -62,26 +62,20 @@
 //     </div>
 //   );
 // }
-
 'use client';
 
 import React, { useRef } from 'react';
-// --- LOCAL SETUP: Uncomment these lines in your local project ---
-// import Link from 'next/link';
-// import gsap from 'gsap';
-import { useGSAP } from '@gsap/react';
-
-// FIXED: Use relative path for preview compatibility
-import Navbar from '../components/Navbar';
+import Link from 'next/link';
+import Navbar from '@/components/Navbar';
 import { Upload, Brain, BarChart3, ArrowRight } from 'lucide-react';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
 
 export default function LandingPage() {
   const container = useRef<HTMLDivElement>(null);
 
-  // --- LOCAL SETUP: Uncomment this hook to enable animations ---
-  
   useGSAP(() => {
-    // 1. Initial State: Hide elements before animation starts
+    // 1. Initial State: Hide elements before animation starts to prevent flash
     gsap.set(".hero-element", { y: 50, opacity: 0 });
     gsap.set(".feature-card", { y: 30, opacity: 0 });
 
@@ -98,12 +92,10 @@ export default function LandingPage() {
       y: 0,
       opacity: 1,
       duration: 0.8,
-      stagger: 0.15, // Stagger cards
+      stagger: 0.15, // Stagger the cards quickly
     }, "-=0.5"); // Start card animation 0.5s before hero finishes
 
   }, { scope: container });
-  
-  // -----------------------------------------------------------
 
   return (
     <div ref={container} className="min-h-screen bg-slate-50 font-sans text-slate-900">
@@ -134,19 +126,18 @@ export default function LandingPage() {
         
         {/* CTA Buttons */}
         <div className="hero-element flex flex-col sm:flex-row gap-4 mt-2">
-          {/* PREVIEW COMPATIBILITY: Using <a> instead of <Link> */}
-          <a 
+          <Link 
             href="/register"
             className="px-8 py-4 bg-indigo-600 text-white text-lg rounded-xl hover:bg-indigo-700 hover:scale-105 transition-all transform shadow-lg font-semibold flex items-center justify-center gap-2"
           >
             Get Started <ArrowRight className="w-5 h-5" />
-          </a>
-          <a 
+          </Link>
+          <Link 
             href="/dashboard"
             className="px-8 py-4 bg-white text-slate-700 text-lg rounded-xl border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition font-semibold flex items-center justify-center"
           >
             View Demo
-          </a>
+          </Link>
         </div>
 
         {/* Feature Grid */}
