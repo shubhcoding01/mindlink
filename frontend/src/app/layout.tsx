@@ -25,12 +25,13 @@
 import React from "react";
 import type { Metadata } from "next";
 // For local development, uncomment the following lines:
-// import { Inter } from "next/font/google";
-// import "./globals.css";
+import { Inter } from "next/font/google";
+// @ts-ignore: allow importing global css without type declarations
+import "../styles/globals.css";
 
 import GSAPWrapper from "@/components/GSAPWrapper";
 
-// const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "MindLink",
@@ -44,13 +45,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      {/* For local development, replace the body tag below with:
+
         <body className={inter.className}>
           <GSAPWrapper>
             {children}
           </GSAPWrapper>
         </body>
-      */}
+      
       <body style={{ fontFamily: 'sans-serif', margin: 0 }}>
         <GSAPWrapper>
           {children}
