@@ -21,13 +21,13 @@
 //     </html>
 //   );
 // }
-
 import React from "react";
 import type { Metadata } from "next";
-// For local development, uncomment the following lines:
 import { Inter } from "next/font/google";
+// Assuming your globals.css is in src/styles/ based on your snippet. 
+// If it is in src/app/, change this to: import "./globals.css";
 // @ts-ignore: allow importing global css without type declarations
-import "../styles/globals.css";
+import "../styles/globals.css"; 
 
 import GSAPWrapper from "@/components/GSAPWrapper";
 
@@ -45,14 +45,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-
-        <body className={inter.className}>
-          <GSAPWrapper>
-            {children}
-          </GSAPWrapper>
-        </body>
-      
-      <body style={{ fontFamily: 'sans-serif', margin: 0 }}>
+      <body className={inter.className}>
         <GSAPWrapper>
           {children}
         </GSAPWrapper>
