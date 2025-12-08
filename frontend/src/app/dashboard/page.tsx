@@ -728,7 +728,7 @@ export default function DashboardPage() {
               <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm">
                  <DocumentUploader />
               </div>
-              <div className="bg-gradient-to-br from-slate-900 to-slate-800 p-8 rounded-3xl shadow-xl text-white flex flex-col justify-center">
+              <div className="bg-linear-to-br from-slate-900 to-slate-800 p-8 rounded-3xl shadow-xl text-white flex flex-col justify-center">
                 <h3 className="font-bold text-2xl mb-4">Vector Database Status</h3>
                 <div className="space-y-4">
                   <div className="flex justify-between border-b border-white/10 pb-2">
