@@ -759,7 +759,7 @@ export default function DashboardPage() {
                </p>
                <Link 
                  href="/workflow"
-                 className="px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-bold shadow-lg hover:shadow-indigo-500/30 hover:scale-105 transition-all duration-300"
+                 className="px-8 py-4 bg-linear-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-bold shadow-lg hover:shadow-indigo-500/30 hover:scale-105 transition-all duration-300"
                >
                  Launch Builder Studio
                </Link>
