@@ -68,7 +68,7 @@ export default function Navbar() {
             href="/register" 
             className="group relative px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-white text-sm font-bold rounded-xl border border-slate-700 hover:border-slate-600 transition-all shadow-lg overflow-hidden"
           >
-            <div className="absolute inset-0 bg-linear-to-r from-indigo-500/0 via-indigo-500/10 to-indigo-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+            <div className="absolute inset-0 bg-linear-to-r from-indigo-500/0 via-indigo-500/10 to-indigo-500/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
             <span className="relative flex items-center gap-2">
               Initialize System <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
             </span>
