@@ -197,7 +197,7 @@ export default function ChatInterface() {
           <div key={idx} className={`flex gap-4 ${msg.role === 'user' ? 'flex-row-reverse' : ''} animate-in fade-in slide-in-from-bottom-2 duration-500`}>
              
              {/* Avatar */}
-             <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center border shadow-lg mt-1 ${
+             <div className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center border shadow-lg mt-1 ${
                msg.role === 'user' 
                  ? 'bg-slate-700 border-slate-600 text-slate-300' 
                  : 'bg-indigo-600 border-indigo-400 text-white'
@@ -209,7 +209,7 @@ export default function ChatInterface() {
              <div className={`relative max-w-[80%] p-4 rounded-2xl text-sm leading-relaxed shadow-md ${
                msg.role === 'user' 
                  ? 'bg-slate-800 text-slate-200 rounded-tr-sm border border-slate-700' 
-                 : 'bg-gradient-to-br from-indigo-900/40 to-slate-900/40 backdrop-blur-md text-indigo-100 rounded-tl-sm border border-indigo-500/20 shadow-[0_0_15px_rgba(99,102,241,0.1)]'
+                 : 'bg-linear-to-br from-indigo-900/40 to-slate-900/40 backdrop-blur-md text-indigo-100 rounded-tl-sm border border-indigo-500/20 shadow-[0_0_15px_rgba(99,102,241,0.1)]'
              }`}>
                {msg.text}
                {msg.role === 'ai' && (
