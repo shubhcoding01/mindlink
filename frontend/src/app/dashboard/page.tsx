@@ -612,7 +612,7 @@ export default function DashboardPage() {
               
               {/* --- 1. Quick Stats Row --- */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="stat-card p-6 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-3xl text-white shadow-xl shadow-indigo-200 relative overflow-hidden group">
+                <div className="stat-card p-6 bg-linear-to-br from-indigo-500 to-violet-600 rounded-3xl text-white shadow-xl shadow-indigo-200 relative overflow-hidden group">
                   <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform duration-500">
                     <Activity className="w-24 h-24" />
                   </div>
