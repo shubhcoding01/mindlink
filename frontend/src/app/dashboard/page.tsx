@@ -669,7 +669,7 @@ export default function DashboardPage() {
                   {MOCK_PLAN.map((item) => (
                     <TiltCard key={item.id} className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm flex items-center justify-between group cursor-pointer relative overflow-hidden">
                       {/* Hover gradient overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-indigo-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                      <div className="absolute inset-0 bg-linear-to-r from-indigo-50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
                       
                       <div className="flex items-center gap-6 relative z-10">
                         <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-xl shadow-sm transition-transform group-hover:scale-110 duration-300 ${
