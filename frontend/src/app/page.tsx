@@ -114,25 +114,28 @@
 
 'use client';
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
+// --- LOCAL SETUP: Uncomment these lines in your local VS Code ---
 import Link from 'next/link';
-import Navbar from '@/components/Navbar'; // Ensure this path matches your project
-import { 
-  Upload, Brain, BarChart3, ArrowRight, Zap, 
-  Layers, Globe, ShieldCheck, Cpu, Network 
-} from 'lucide-react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-// Register ScrollTrigger (check window to avoid SSR issues)
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger);
-}
+// FIXED: Use relative path for preview compatibility. 
+import Navbar from '../components/Navbar';
+import { 
+  Upload, Brain, BarChart3, ArrowRight, Zap, 
+  Layers, ShieldCheck, Cpu, Network 
+} from 'lucide-react';
 
 export default function LandingPage() {
   const container = useRef<HTMLDivElement>(null);
-  const heroTextRef = useRef<HTMLHeadingElement>(null);
+
+  // --- LOCAL SETUP: Uncomment this hook locally to enable animations ---
+  
+  if (typeof window !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+  }
 
   useGSAP(() => {
     const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
@@ -143,7 +146,7 @@ export default function LandingPage() {
     gsap.set(".feature-card", { y: 50, opacity: 0 });
     gsap.set(".bento-item", { scale: 0.9, opacity: 0 });
 
-    // 2. Hero Text Animation (Staggered Characters/Words effect simulated via lines)
+    // 2. Hero Text Animation
     tl.to(".fade-in-up", {
       y: 0,
       opacity: 1,
@@ -187,6 +190,8 @@ export default function LandingPage() {
     });
 
   }, { scope: container });
+  
+  // -------------------------------------------------------------------
 
   return (
     // Switching to a dark theme base for that "Deep Tech" vibe
@@ -229,7 +234,8 @@ export default function LandingPage() {
           
           {/* CTA Buttons */}
           <div className="fade-in-up flex flex-col sm:flex-row gap-4 w-full justify-center">
-            <Link 
+            {/* LOCALLY: Change <a> to <Link href="/register"> */}
+            <a 
               href="/register"
               className="group relative px-8 py-4 bg-indigo-600 text-white text-lg rounded-2xl overflow-hidden shadow-2xl shadow-indigo-900/40 transition-all hover:scale-105 hover:shadow-indigo-600/50"
             >
@@ -237,17 +243,18 @@ export default function LandingPage() {
               <span className="relative flex items-center justify-center gap-2 font-semibold">
                 Initialize System <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </span>
-            </Link>
+            </a>
             
-            <Link 
+            {/* LOCALLY: Change <a> to <Link href="/dashboard"> */}
+            <a 
               href="/dashboard"
               className="px-8 py-4 bg-slate-900 text-slate-300 text-lg rounded-2xl border border-slate-800 hover:bg-slate-800 hover:text-white transition-all font-medium flex items-center justify-center gap-2 backdrop-blur-sm"
             >
               <Zap className="w-5 h-5 text-yellow-500" /> Live Demo
-            </Link>
+            </a>
           </div>
 
-          {/* Floating UI Mockup (Abstract representation of the app interface) */}
+          {/* Floating UI Mockup */}
           <div className="floating-ui mt-20 relative w-full max-w-5xl mx-auto perspective-1000">
              <div className="relative rounded-xl border border-slate-800 bg-slate-950/50 backdrop-blur-xl shadow-2xl overflow-hidden aspect-[16/9] md:aspect-[21/9]">
                 {/* Mock UI Header */}
