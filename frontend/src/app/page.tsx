@@ -222,7 +222,7 @@ export default function LandingPage() {
           {/* Main Title */}
           <h1 className="fade-in-up text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tight text-white mb-6 max-w-5xl leading-[1.1]">
             Unlock Your <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-blue-400 animate-gradient-x">
+            <span className="text-transparent bg-clip-text bg-linear-to-r from-indigo-400 via-purple-400 to-blue-400 animate-gradient-x">
               Cognitive Potential
             </span>
           </h1>
@@ -239,7 +239,7 @@ export default function LandingPage() {
               href="/register"
               className="group relative px-8 py-4 bg-indigo-600 text-white text-lg rounded-2xl overflow-hidden shadow-2xl shadow-indigo-900/40 transition-all hover:scale-105 hover:shadow-indigo-600/50"
             >
-              <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shimmer" />
+              <div className="absolute inset-0 w-full h-full bg-linear-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shimmer" />
               <span className="relative flex items-center justify-center gap-2 font-semibold">
                 Initialize System <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </span>
@@ -256,7 +256,7 @@ export default function LandingPage() {
 
           {/* Floating UI Mockup */}
           <div className="floating-ui mt-20 relative w-full max-w-5xl mx-auto perspective-1000">
-             <div className="relative rounded-xl border border-slate-800 bg-slate-950/50 backdrop-blur-xl shadow-2xl overflow-hidden aspect-[16/9] md:aspect-[21/9]">
+             <div className="relative rounded-xl border border-slate-800 bg-slate-950/50 backdrop-blur-xl shadow-2xl overflow-hidden aspect-video md:aspect-21/9">
                 {/* Mock UI Header */}
                 <div className="h-12 border-b border-slate-800 bg-slate-900/50 flex items-center px-4 gap-2">
                    <div className="w-3 h-3 rounded-full bg-red-500/80" />
@@ -273,16 +273,16 @@ export default function LandingPage() {
                       <div className="h-32 w-full bg-indigo-900/10 border border-indigo-500/20 rounded-xl mt-8" />
                    </div>
                    <div className="col-span-2 bg-slate-900/30 rounded-xl border border-slate-800/50 p-6 relative overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/5 to-transparent" />
+                      <div className="absolute inset-0 bg-linear-to-tr from-indigo-500/5 to-transparent" />
                       <div className="flex items-start gap-4 mb-6">
-                         <div className="w-10 h-10 rounded-full bg-indigo-600 flex-shrink-0" />
+                         <div className="w-10 h-10 rounded-full bg-indigo-600 shrink-0" />
                          <div className="space-y-2 w-full">
                             <div className="h-4 w-1/4 bg-slate-700 rounded" />
                             <div className="h-16 w-full bg-slate-800/50 rounded-lg border border-slate-700/50" />
                          </div>
                       </div>
                       <div className="flex items-start gap-4 flex-row-reverse">
-                         <div className="w-10 h-10 rounded-full bg-emerald-600 flex-shrink-0" />
+                         <div className="w-10 h-10 rounded-full bg-emerald-600 shrink-0" />
                          <div className="space-y-2 w-full flex flex-col items-end">
                             <div className="h-4 w-1/4 bg-slate-700 rounded" />
                             <div className="h-24 w-3/4 bg-emerald-900/20 rounded-lg border border-emerald-500/20" />
@@ -299,7 +299,7 @@ export default function LandingPage() {
         {/* --- BENTO GRID FEATURES --- */}
         <section className="py-24 px-6 lg:px-8 max-w-7xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-white to-slate-500 mb-4">
+            <h2 className="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-linear-to-b from-white to-slate-500 mb-4">
               Architected for Intelligence
             </h2>
             <p className="text-slate-400 text-lg">Powered by Vector Embeddings and Large Language Models.</p>
@@ -309,7 +309,7 @@ export default function LandingPage() {
              
              {/* Card 1: Large Span */}
              <div className="bento-item md:col-span-2 row-span-1 bg-slate-900/50 border border-slate-800 rounded-3xl p-8 relative overflow-hidden group hover:border-indigo-500/50 transition-colors">
-                <div className="absolute right-0 top-0 w-1/2 h-full bg-gradient-to-l from-indigo-600/10 to-transparent" />
+                <div className="absolute right-0 top-0 w-1/2 h-full bg-linear-to-l from-indigo-600/10 to-transparent" />
                 <Upload className="w-12 h-12 text-indigo-400 mb-6" />
                 <h3 className="text-2xl font-bold text-white mb-2">Universal Ingestion Engine</h3>
                 <p className="text-slate-400 max-w-md">
@@ -326,7 +326,7 @@ export default function LandingPage() {
 
              {/* Card 2: Vertical */}
              <div className="bento-item md:col-span-1 row-span-2 bg-slate-900/50 border border-slate-800 rounded-3xl p-8 relative overflow-hidden group hover:border-purple-500/50 transition-colors">
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900/20 via-slate-900/0 to-transparent" />
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-purple-900/20 via-slate-900/0 to-transparent" />
                 <Brain className="w-12 h-12 text-purple-400 mb-6" />
                 <h3 className="text-2xl font-bold text-white mb-4">Recursive Reasoning</h3>
                 <p className="text-slate-400 mb-8">
