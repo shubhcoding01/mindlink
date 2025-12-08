@@ -507,7 +507,7 @@ export default function DashboardPage() {
           <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-200">
             <Brain className="w-6 h-6 text-white" />
           </div>
-          <span className="text-2xl font-extrabold tracking-tight hidden lg:block bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-violet-600">
+          <span className="text-2xl font-extrabold tracking-tight hidden lg:block bg-clip-text text-transparent bg-linear-to-r from-indigo-600 to-violet-600">
             MindLink
           </span>
         </div>
@@ -552,9 +552,9 @@ export default function DashboardPage() {
           ))}
         </nav>
 
-        <div className="p-6 border-t border-slate-100 bg-gradient-to-b from-transparent to-slate-50/50">
+        <div className="p-6 border-t border-slate-100 bg-linear-to-b from-transparent to-slate-50/50">
           <div className="sidebar-item flex items-center gap-3 p-3 bg-white border border-slate-100 rounded-2xl shadow-sm mb-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold shadow-md">
+            <div className="w-10 h-10 rounded-full bg-linear-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold shadow-md">
               {MOCK_USER.name[0]}
             </div>
             <div className="hidden lg:block overflow-hidden">
