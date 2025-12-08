@@ -826,7 +826,7 @@ export default function DashboardPage() {
                   {MOCK_PLAN.map((item) => (
                     <TiltCard key={item.id} className="bg-slate-900/60 backdrop-blur border border-slate-800 p-6 rounded-2xl shadow-lg flex items-center justify-between group cursor-pointer relative overflow-hidden hover:border-slate-700 transition-colors">
                       {/* Hover gradient overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                      <div className="absolute inset-0 bg-linear-to-r from-indigo-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
                       
                       <div className="flex items-center gap-6 relative z-10">
                         <div className={`w-14 h-14 rounded-2xl flex items-center justify-center text-xl shadow-inner transition-transform group-hover:scale-110 duration-300 ${
@@ -885,7 +885,7 @@ export default function DashboardPage() {
               <div className="bg-slate-900/50 backdrop-blur p-6 rounded-3xl border border-slate-800 shadow-xl">
                  <DocumentUploader />
               </div>
-              <div className="bg-gradient-to-br from-slate-900 to-slate-800 p-8 rounded-3xl shadow-xl text-white flex flex-col justify-center border border-slate-700">
+              <div className="bg-linear-to-br from-slate-900 to-slate-800 p-8 rounded-3xl shadow-xl text-white flex flex-col justify-center border border-slate-700">
                 <h3 className="font-bold text-2xl mb-4">Vector Database Status</h3>
                 <div className="space-y-4">
                   <div className="flex justify-between border-b border-white/10 pb-2">
