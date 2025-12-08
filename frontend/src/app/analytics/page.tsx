@@ -414,7 +414,7 @@ export default function AnalyticsPage() {
         // UPDATED: Main background set to slate-950 to match Landing Page
         <div ref={container} className="min-h-screen bg-slate-950 p-8 lg:p-12 overflow-hidden font-sans text-slate-50 selection:bg-indigo-500/30">
             {/* Background Gradient */}
-            <div className="fixed top-0 left-0 w-full h-[500px] bg-gradient-to-b from-indigo-900/20 to-transparent -z-10 pointer-events-none" />
+            <div className="fixed top-0 left-0 w-full h-[500px] bg-linear-to-b from-indigo-900/20 to-transparent -z-10 pointer-events-none" />
 
             <header className="page-header mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4">
                 <div>
@@ -517,7 +517,7 @@ export default function AnalyticsPage() {
                         </div>
                     </div>
                     
-                    <div className="content-panel bg-gradient-to-br from-indigo-900 to-violet-900 p-8 rounded-3xl shadow-xl text-white border border-indigo-500/20">
+                    <div className="content-panel bg-linear-to-br from-indigo-900 to-violet-900 p-8 rounded-3xl shadow-xl text-white border border-indigo-500/20">
                         <h3 className="font-bold text-xl mb-2 text-white">Weekly Insight</h3>
                         <p className="text-indigo-200 text-sm mb-6 leading-relaxed">
                             Your retention rate for "FastAPI" topics is 30% higher than average. Consider increasing difficulty.
