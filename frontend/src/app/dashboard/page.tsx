@@ -571,7 +571,7 @@ export default function DashboardPage() {
       {/* --- MAIN CONTENT AREA --- */}
       <main className="flex-1 ml-20 lg:ml-72 p-8 lg:p-12 overflow-y-auto h-screen relative">
         {/* Background Decoration */}
-        <div className="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-indigo-50/50 to-transparent -z-10 pointer-events-none" />
+        <div className="absolute top-0 left-0 w-full h-96 bg-linear-to-b from-indigo-50/50 to-transparent -z-10 pointer-events-none" />
 
         {/* Header */}
         <header className="dashboard-header flex flex-col md:flex-row md:items-center justify-between gap-4 mb-12">
