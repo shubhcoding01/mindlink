@@ -203,7 +203,7 @@ export default function NotificationCenter() {
       {isOpen && (
         <div 
             ref={dropdownRef}
-            className="absolute right-0 mt-4 w-80 sm:w-96 max-h-[32rem] bg-slate-900/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-700/50 overflow-hidden z-50 origin-top-right"
+            className="absolute right-0 mt-4 w-80 sm:w-96 max-h-128 bg-slate-900/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-slate-700/50 overflow-hidden z-50 origin-top-right"
         >
           {/* Header */}
           <div className="p-4 flex justify-between items-center border-b border-slate-800 bg-slate-950/30">
@@ -220,7 +220,7 @@ export default function NotificationCenter() {
           </div>
           
           {/* List */}
-          <div className="overflow-y-auto p-2 space-y-2 max-h-[24rem] custom-scrollbar">
+          <div className="overflow-y-auto p-2 space-y-2 max-h-96 custom-scrollbar">
             {notifications.length === 0 ? (
               <div className="text-center py-12 px-6">
                  <div className="w-12 h-12 bg-slate-800/50 rounded-full flex items-center justify-center mx-auto mb-3">
@@ -242,7 +242,7 @@ export default function NotificationCenter() {
                     }`}
                   >
                     {/* Icon Box */}
-                    <div className={`flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center border mt-0.5 ${bg} ${color}`}>
+                    <div className={`shrink-0 w-8 h-8 rounded-lg flex items-center justify-center border mt-0.5 ${bg} ${color}`}>
                         <Icon className="w-4 h-4" />
                     </div>
 
