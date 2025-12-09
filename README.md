@@ -2,64 +2,112 @@ MindLink: AI Personalized Learning Companion
 
 MindLink is an AI-driven platform designed to adapt to a user's learning style, create custom study plans, generate quizzes, and maintain a personal knowledge base using Retrieval-Augmented Generation (RAG).
 
-This project is built using a microservice architecture defined by Next.js, FastAPI, and specialized AI/ML tooling.
+This project uses a microservice architecture with Next.js 14 (Frontend), FastAPI (Backend), and a dedicated AI Service powered by LangChain and ChromaDB.
 
 🚀 Getting Started (Local Development)
 
-This project uses Docker Compose to manage all required services, including the backend, AI worker, database, cache, and object storage.
+This project relies on Docker Compose to orchestrate the backend services (Postgres, Redis, MinIO, AI Service, and the FastAPI Backend).
 
 Prerequisites
 
-Node.js (v18 or higher)
+Node.js (v18 or higher) - Required for the frontend.
 
-Python (v3.11 or higher)
+Docker Desktop (Installed and Running) - Required for the backend infrastructure.
 
-Docker Desktop (Installed and Running)
+Git - To clone the repository.
 
-Setup Instructions
+Step 1: Backend Setup & Infrastructure
 
 Clone the repository:
 
-git clone [YOUR_REPO_URL] mindlink
+git clone <YOUR_REPO_URL> mindlink
 cd mindlink
 
 
 Create Environment File:
-Create a file named .env in the root directory (mindlink/) and populate it with the required secrets and configurations.
+Create a .env file in the root mindlink/ directory. Copy the contents below:
 
-cp .env.example .env 
-# (If .env.example exists, otherwise create it manually)
+# .env
+PROJECT_NAME="MindLink API"
+SECRET_KEY="replace_this_with_a_long_random_string"
+ACCESS_TOKEN_EXPIRE_MINUTES=60
+FRONTEND_URL="http://localhost:3000"
+
+# Database
+POSTGRES_USER="mindlink_user"
+POSTGRES_PASSWORD="mindlink_password"
+POSTGRES_SERVER="postgres"
+POSTGRES_PORT=5432
+POSTGRES_DB="mindlink_db"
+
+# Object Storage (MinIO)
+S3_ENDPOINT_URL="http://minio:9000"
+S3_ACCESS_KEY="minio_root"
+S3_SECRET_KEY="minio_password"
+S3_BUCKET_NAME="mindlink-documents"
+
+# AI Service
+AI_SERVICE_URL="http://ai_service:8100"
 
 
-Ensure the database credentials match the docker-compose.yml service definition.
-
-Start the Stack:
-Build and start all services (Postgres, Redis, MinIO, Backend, AI Service):
+Start the Backend Stack:
+Build and start all containers in detached mode:
 
 docker compose up --build -d
 
 
-Database Migration (Crucial):
-Once the backend container is running (wait for PostgreSQL to be healthy), execute the following commands to create the users table:
+Wait ~15 seconds for all services to initialize.
 
-# 4a. Generate the first migration script (if not already done)
-docker exec -it mindlink-backend-1 alembic revision --autogenerate -m "initial user setup"
+Verify Services are Running:
 
-# 4b. Apply the migration to the database
-docker exec -it mindlink-backend-1 alembic upgrade head
+docker compose ps
 
+
+Ensure mindlink-backend-1, mindlink-postgres-1, and mindlink-ai_service-1 show status Up.
+
+Initialize the Database (Run Migration):
+Execute the following commands to create the users table:
+
+# 1. Create the migration script based on your models
+docker exec -it mindlink-backend-1 python -m alembic -c alembic.ini revision --autogenerate -m "initial user setup"
+
+# 2. Apply the migration to the database
+docker exec -it mindlink-backend-1 python -m alembic -c alembic.ini upgrade head
+
+
+Step 2: Frontend Setup
+
+Navigate to the frontend directory:
+
+cd frontend
+
+
+Install Dependencies:
+
+npm install
+# Ensure you have GSAP installed for animations
+npm install gsap @gsap/react swiper lucide-react
+
+
+Start the Development Server:
+
+npm run dev
+
+
+Access the App:
+Open your browser and go to: http://localhost:3000
 
 🛠️ Project Structure
 
-The project is split into three main codebases:
+The codebase is organized into three distinct parts:
 
 Service
 
 Folder
 
-Language/Framework
+Tech Stack
 
-Purpose
+Responsibility
 
 Frontend
 
@@ -67,45 +115,47 @@ frontend/
 
 Next.js 14, React, Tailwind CSS
 
-User Interface, routing, API consumption.
+UI, Animations (GSAP), Routing, API Consumption.
 
 Backend
 
 backend/
 
-FastAPI, Python, SQLModel
+FastAPI, Python 3.11, SQLModel
 
-Core REST API, Authentication, Business Logic, DB access.
+Authentication, User Management, Database Operations.
 
 AI Service
 
 ai_service/
 
-FastAPI, Python, LangChain, Chroma
+FastAPI, LangChain, Chroma
 
-Document Ingestion, Embedding Generation, RAG logic.
+RAG Pipeline: Document Ingestion, Embedding, Vector Storage.
 
-🧪 Testing and Access
+🧪 Testing & Verification
 
-1. Frontend Access
+1. Backend Health Check
 
-Navigate to the frontend directory: cd frontend
+Health Endpoint: http://localhost:8000/health
 
-Install dependencies: npm install
+Expected: {"status": "ok", "message": "MindLink API is running"}
 
-Start the development server: npm run dev
+API Documentation (Swagger UI): http://localhost:8000/docs
 
-Access the UI at: http://localhost:3000
+Use this interface to manually test POST /api/auth/register and POST /api/auth/login.
 
-2. Backend API Access
+2. Full Stack Integration Test
 
-The main API is running on port 8000.
+Go to the frontend: http://localhost:3000
 
-Health Check: http://localhost:8000/health (Should return {"status": "ok"})
+Click "Initialize System" (Register).
 
-API Docs (Swagger UI): http://localhost:8000/docs (Use this to test registration and login endpoints).
+Create a new account.
 
-3. Key Endpoints
+Success: You should be redirected to the Dashboard (/dashboard), confirming the frontend successfully communicated with the backend database.
+
+🔑 Key API Endpoints
 
 Endpoint
 
@@ -113,26 +163,64 @@ Method
 
 Description
 
+Status
+
 /api/auth/register
 
 POST
 
-Create a new user account.
+Register a new user.
+
+✅ Active
 
 /api/auth/login
 
 POST
 
-Authenticate user and retrieve JWT.
+Login and retrieve JWT.
+
+✅ Active
+
+/api/auth/me
+
+GET
+
+Get current user profile.
+
+🚧 Pending
 
 /api/documents/upload
 
 POST
 
-Upload a file to MinIO (Requires implementation).
+Upload file to MinIO.
+
+🚧 Pending
 
 /api/ai/chat
 
 POST
 
-RAG query using personalized documents (Requires implementation).
+RAG query via AI Service.
+
+🚧 Pending
+
+🐛 Troubleshooting
+
+"Container Restarting" Loop:
+
+Run docker compose logs backend to see the error.
+
+If pg_isready not found: Rebuild with docker compose build --no-cache backend.
+
+If SyntaxError: null bytes: Delete backend/app/main.py and recreate it cleanly.
+
+Database Error "relation 'user' does not exist":
+
+Re-run the migration commands in Step 1, Item 5.
+
+Frontend "Network Error":
+
+Ensure the backend is running on port 8000.
+
+Check src/lib/axios.ts base URL configuration.
