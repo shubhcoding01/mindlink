@@ -1,0 +1,94 @@
+version: '3.8'
+
+services:
+  # 1. PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: mindlink_db
+      POSTGRES_USER: mindlink_user
+      POSTGRES_PASSWORD: mindlink_password
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mindlink_user -d mindlink_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "5432:5432"
+
+  # 2. Redis Cache
+  redis:
+    image: redis:7-alpine
+    restart: always
+    ports:
+      - "6379:6379"
+
+  # 3. MinIO (Local S3 compatible storage for documents)
+  minio:
+    image: minio/minio
+    restart: always
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: minio_root
+      MINIO_ROOT_PASSWORD: minio_password
+    volumes:
+      - minio_data:/data
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+
+  # 4. FastAPI Backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: on-failure
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      minio:
+        condition: service_started
+    volumes:
+      - ./backend/app:/app/app
+      - ./backend/alembic.ini:/app/alembic.ini
+      # IMPORTANT: We map the local alembic folder to the container
+      - ./backend/app/alembic:/app/app/alembic
+    # Startup command that waits for DB
+    command: >
+      /bin/sh -c "
+      until pg_isready -h postgres -p 5432 -U mindlink_user; do 
+        echo 'Waiting for DB...'; sleep 1; 
+      done;
+      uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+
+  # 5. AI Service
+  ai_service:
+    build:
+      context: ./ai_service
+      dockerfile: Dockerfile
+    restart: on-failure
+    env_file:
+      - .env
+    ports:
+      - "8100:8100"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      minio:
+        condition: service_started
+    volumes:
+      - ./ai_service:/app
+    command: ["python", "ingest.py"]
+
+volumes:
+  pg_data:
+  minio_data:
