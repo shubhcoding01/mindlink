@@ -27,13 +27,13 @@ async def chat_with_ai(
     """
     try:
         # In a real microservice architecture, we call the AI Service via HTTP
-        # async with httpx.AsyncClient() as client:
-        #     response = await client.post(
-        #         f"{settings.AI_SERVICE_URL}/generate",
-        #         json={"user_id": request.user_id, "prompt": request.prompt}
-        #     )
-        #     data = response.json()
-        #     return data
+        async with http.AsyncClient() as client:
+            response = await client.post(
+                f"{settings.AI_SERVICE_URL}/generate",
+                json={"user_id": request.user_id, "prompt": request.prompt}
+            )
+            data = response.json()
+            return data
         
         # --- MOCK RESPONSE for MVP Stability ---
         # This simulates the RAG response until the AI container networking is fully tested
