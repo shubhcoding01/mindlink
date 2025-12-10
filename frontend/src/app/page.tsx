@@ -441,7 +441,7 @@ const HeroInterface = () => {
        {/* 3D Container */}
        <div 
          ref={cardRef}
-         className="floating-ui relative rounded-2xl border border-slate-700/50 bg-slate-950/80 backdrop-blur-2xl shadow-[0_0_80px_rgba(79,70,229,0.15)] overflow-hidden aspect-[16/10] md:aspect-[21/9] group transform-style-3d"
+         className="floating-ui relative rounded-2xl border border-slate-700/50 bg-slate-950/80 backdrop-blur-2xl shadow-[0_0_80px_rgba(79,70,229,0.15)] overflow-hidden aspect-16/10 md:aspect-21/9 group transform-style-3d"
          style={{ transformStyle: 'preserve-3d' }}
        >
           {/* Dynamic Glare Overlay */}
@@ -451,7 +451,7 @@ const HeroInterface = () => {
           />
 
           {/* Top Scanning Line Animation */}
-          <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-indigo-500 to-transparent opacity-50 animate-scan z-40" />
+          <div className="absolute top-0 left-0 w-full h-px bg-linear-to-r from-transparent via-indigo-500 to-transparent opacity-50 animate-scan z-40" />
 
           {/* --- Mock Browser Header --- */}
           <div className="h-10 border-b border-slate-800 bg-slate-900/90 flex items-center justify-between px-4 z-30 relative">
@@ -482,7 +482,7 @@ const HeroInterface = () => {
                       <Icon className="w-4 h-4" />
                    </div>
                 ))}
-                <div className="mt-auto h-8 w-8 rounded-full bg-gradient-to-tr from-purple-900 to-slate-800 border border-slate-700" />
+                <div className="mt-auto h-8 w-8 rounded-full bg-linear-to-tr from-purple-900 to-slate-800 border border-slate-700" />
              </div>
 
              {/* 2. File Explorer / Context List */}
@@ -517,7 +517,7 @@ const HeroInterface = () => {
              {/* 3. Main Work Area (Chat + Viz) */}
              <div className="col-span-10 md:col-span-8 lg:col-span-9 flex flex-col bg-slate-950 relative overflow-hidden">
                 {/* Background Grid */}
-                <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_at_center,black,transparent)] pointer-events-none" />
+                <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-size-[40px_40px] mask-[radial-gradient(ellipse_at_center,black,transparent)] pointer-events-none" />
                 
                 {/* Header */}
                 <div className="h-12 border-b border-slate-800 flex items-center justify-between px-6 bg-slate-900/10 backdrop-blur-sm z-10">
@@ -590,7 +590,7 @@ const HeroInterface = () => {
                        <div className="flex-1 flex items-end gap-1 pb-4 border-b border-slate-800 z-10">
                           {[40, 65, 30, 85, 50, 20, 95, 60, 45, 70, 35, 55, 80, 25, 60].map((h, i) => (
                              <div key={i} className="flex-1 bg-indigo-500/20 hover:bg-indigo-500/40 transition-colors rounded-t-sm relative group" style={{ height: `${h}%` }}>
-                                <div className="absolute top-0 left-0 w-full h-[1px] bg-indigo-400/50" />
+                                <div className="absolute top-0 left-0 w-full h-px bg-indigo-400/50" />
                              </div>
                           ))}
                        </div>

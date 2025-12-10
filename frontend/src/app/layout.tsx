@@ -177,7 +177,7 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body 
         className="bg-slate-950 text-slate-50 antialiased selection:bg-indigo-500/30 selection:text-indigo-100 font-sans min-h-screen flex flex-col"
-        style={{ fontFamily: 'sans-serif' }} // Fallback font for preview
+
       >
         
         {/* --- GLOBAL AMBIENT BACKGROUND --- */}
