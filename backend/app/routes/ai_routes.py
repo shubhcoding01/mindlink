@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from pydantic import BaseModel
 from typing import List, Optional
-import httpx
+import http
 from app.utils.config import settings
 from app.utils.db import get_session
 # from app.services.user_service import get_current_user # Dependency

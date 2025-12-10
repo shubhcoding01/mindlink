@@ -1,6 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.routes import user_routes
+# from app.routes import user_routes
+from app.routes import document_routes
+from app.routes import ai_routes
+from app.routes import study_plan_routes
 from app.utils.config import settings
 from app.core.database import create_db_and_tables
 
@@ -29,8 +33,53 @@ app.add_middleware(
 
 # --- Include Routers ---
 app.include_router(user_routes.router, prefix="/api")
+app.include_router(document_routes.router, prefix="/api")
+app.include_router(ai_routes.router, prefix="/api")
+app.include_router(study_plan_routes.router, prefix="/api")
+
 
 @app.get("/health", tags=["System"])
 async def health_check():
     """Basic health check endpoint."""
     return {"status": "ok", "message": "MindLink API is running"}
+
+# from fastapi import FastAPI
+# from fastapi.middleware.cors import CORSMiddleware
+# # Import all routers
+# from app.routes import user_routes, document_routes, ai_routes, study_plan_routes
+# from app.utils.config import settings
+# from app.core.database import create_db_and_tables
+
+# # Initialize the application
+# app = FastAPI(
+#     title=settings.PROJECT_NAME,
+#     version=settings.PROJECT_VERSION,
+#     openapi_url="/openapi.json"
+# )
+
+# # --- CORS Middleware ---
+# # Allows your frontend (localhost:3000) to communicate with this backend
+# origins = [
+#     settings.FRONTEND_URL,
+#     "http://localhost",
+#     "http://localhost:3000",
+# ]
+
+# app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=origins,
+#     allow_credentials=True,
+#     allow_methods=["*"],
+#     allow_headers=["*"],
+# )
+
+# # --- Include Routers ---
+# app.include_router(user_routes.router, prefix="/api")
+# # app.include_router(document_routes.router, prefix="/api")
+# # app.include_router(ai_routes.router, prefix="/api")
+# # app.include_router(study_plan_routes.router, prefix="/api")
+
+# @app.get("/health", tags=["System"])
+# async def health_check():
+#     """Basic health check endpoint."""
+#     return {"status": "ok", "message": "MindLink API is running"}
